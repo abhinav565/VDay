@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be My Valentine ❤️</title>
 
 <style>
@@ -166,25 +167,128 @@
     color: #999;
   }
 
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    body {
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .card {
+      padding: 30px 20px;
+      max-width: 100%;
+      margin: 20px;
+      width: calc(100% - 40px);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 0 0 15px 0;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px auto;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    .buttons {
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: auto;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 14px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    #bgAudio {
+      bottom: 10px !important;
+      right: 10px !important;
+      height: 35px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 20px 15px;
+      margin: 10px;
+      width: calc(100% - 20px);
+      border-radius: 20px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 10px 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 12px auto;
+    }
+
+    p {
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .reveal {
+      font-size: 16px;
+      margin-top: 20px;
+      padding-top: 15px;
+    }
+
+    footer {
+      font-size: 12px;
+      margin-top: 15px;
+    }
+  }
+
 </style>
 </head>
 
 <body>
 
 <!-- Background Music -->
-<audio autoplay loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+<audio id="bgAudio" autoplay loop controls style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
-  <img class="profile-pic" src="https://drive.google.com/file/d/1xOQ44kMGcBBXFKJqiLSklRcv-PljbuL-/view" alt="Her picture">
+  <img class="profile-pic" src="img.jpg" alt="Her picture">
   <h1>Hey <span id="name">Boo Boo ❤️</span></h1>
 
   <p>
-    From stealing your fries 🍟 to laughing at our dumb jokes,<br>
+    From farting in front of you to on the verge of marrying you, <br>
     every moment with you is my favorite.
     <br><br>
-    (Yes, even that one time with <strong>YOUR INSIDE JOKE HERE</strong> 😌)
+    (Yes, even that one time with <strong>When you burped in my mouth</strong> 😌)
   </p>
 
   <h2>Will you be my Valentine? 💘</h2>
@@ -197,14 +301,26 @@
   <div class="reveal" id="reveal">
     🎉 YAY!!! 🎉<br><br>
     Get ready for:<br>
-    <strong>Dinner 🍝 + Surprise 🥂 + Lots of Kisses 😘</strong><br><br>
-    <em>Date: YOUR DATE HERE</em>
+    <strong>Dinner 🍝 + Lots of Kisses 😘</strong><br><br>
+    <em>Date: The moment you step foot in Pune</em>
   </div>
 
   <footer>Made with ❤️ just for you</footer>
 </div>
 
 <script>
+  // Auto-play unmuted audio
+  const audio = document.getElementById("bgAudio");
+  audio.volume = 0.5;
+  
+  // Try to play immediately
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.log("Autoplay failed:", error);
+    });
+  }
+
   /* Floating hearts generator */
   const hearts = ["💖","💕","💘","💝","❤️"];
 
@@ -223,6 +339,11 @@
   function revealDate() {
     const reveal = document.getElementById("reveal");
     reveal.style.display = "block";
+    
+    // Play audio
+    const audio = document.getElementById("bgAudio");
+    audio.volume = 0.5;
+    audio.play().catch(e => console.log("Audio play failed:", e));
 
     // Fireworks explosion
     const colors = ["💖", "💕", "💘", "💝", "❤️", "✨", "🎉", "🎊"];
