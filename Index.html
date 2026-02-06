@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffc0cb);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Floating hearts everywhere */
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(100vh) scale(0.8);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10vh) scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px 40px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(255, 59, 111, 0.3);
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    user-select: none;
+  }
+
+  h1 {
+    color: #ff3b6f;
+    margin: 0 0 20px 0;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 25px auto;
+    border: 5px solid #ff3b6f;
+    box-shadow: 0 10px 30px rgba(255, 59, 111, 0.3);
+    display: block;
+  }
+
+  p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 16px;
+    margin: 20px 0;
+  }
+
+  .buttons {
+    margin-top: 35px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 60px;
+  }
+
+  button {
+    padding: 14px 35px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+  }
+
+  .yes {
+    background: linear-gradient(135deg, #ff3b6f, #ff5a8a);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 59, 111, 0.4);
+  }
+
+  .yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(255, 59, 111, 0.6);
+  }
+
+  .yes:active {
+    transform: scale(0.98);
+  }
+
+  .no {
+    background: #f0f0f0;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .no:hover {
+    background: #e8e8e8;
+  }
+
+  /* Date reveal */
+  .reveal {
+    display: none;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 2px solid #ffe0e6;
+    font-size: 18px;
+    color: #ff3b6f;
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fireworks {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) scale(0);
+      opacity: 0;
+    }
+  }
+
+  .firework {
+    position: fixed;
+    pointer-events: none;
+    will-change: transform;
+    animation: fireworks 1.2s ease-out forwards;
+  }
+
+  footer {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #999;
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <img class="profile-pic" src="https://drive.google.com/file/d/1xOQ44kMGcBBXFKJqiLSklRcv-PljbuL-/view" alt="Her picture">
+  <h1>Hey <span id="name">Boo Boo ❤️</span></h1>
+
+  <p>
+    From stealing your fries 🍟 to laughing at our dumb jokes,<br>
+    every moment with you is my favorite.
+    <br><br>
+    (Yes, even that one time with <strong>YOUR INSIDE JOKE HERE</strong> 😌)
+  </p>
+
+  <h2>Will you be my Valentine? 💘</h2>
+
+  <div class="buttons">
+    <button class="yes" onclick="revealDate()">YES 💖</button>
+    <button class="no">No 🙃</button>
+  </div>
+
+  <div class="reveal" id="reveal">
+    🎉 YAY!!! 🎉<br><br>
+    Get ready for:<br>
+    <strong>Dinner 🍝 + Surprise 🥂 + Lots of Kisses 😘</strong><br><br>
+    <em>Date: YOUR DATE HERE</em>
+  </div>
+
+  <footer>Made with ❤️ just for you</footer>
+</div>
+
+<script>
+  /* Floating hearts generator */
+  const hearts = ["💖","💕","💘","💝","❤️"];
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 8000);
+  }, 300);
+
+  /* Yes button explosion + reveal */
+  function revealDate() {
+    const reveal = document.getElementById("reveal");
+    reveal.style.display = "block";
+
+    // Fireworks explosion
+    const colors = ["💖", "💕", "💘", "💝", "❤️", "✨", "🎉", "🎊"];
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    // Create multiple firework bursts
+    for (let burst = 0; burst < 5; burst++) {
+      setTimeout(() => {
+        for (let i = 0; i < 40; i++) {
+          const angle = (i / 40) * Math.PI * 2;
+          const velocity = 3 + Math.random() * 5;
+          const tx = Math.cos(angle) * velocity * 100;
+          const ty = Math.sin(angle) * velocity * 100;
+          
+          const firework = document.createElement("div");
+          firework.className = "firework";
+          firework.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+          firework.style.left = centerX + "px";
+          firework.style.top = centerY + "px";
+          firework.style.setProperty("--tx", tx + "px");
+          firework.style.setProperty("--ty", ty + "px");
+          firework.style.fontSize = (20 + Math.random() * 20) + "px";
+          document.body.appendChild(firework);
+          
+          setTimeout(() => firework.remove(), 1200);
+        }
+      }, burst * 150);
+    }
+  }
+
+  /* No button runs away on hover and click */
+  const noButton = document.querySelector(".no");
+  
+  function moveButtonAway() {
+    const randomX = Math.random() * 250 - 125;
+    const randomY = Math.random() * 250 - 125;
+    noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+  }
+  
+  noButton.addEventListener("mouseover", moveButtonAway);
+  noButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    moveButtonAway();
+  });
+</script>
+
+</body>
+</html>
